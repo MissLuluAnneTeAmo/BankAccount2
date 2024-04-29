@@ -12,6 +12,10 @@ public class BankAccountList {
 
     private final Scanner scanner = new Scanner(System.in);  // Scanner for user input
 
+    public BankAccountList() {
+        capacity = Short.MAX_VALUE;
+        numOfAccount = 0;
+    }
 
     public BankAccountList(int capacity) {
         this.capacity = capacity;
@@ -126,7 +130,10 @@ public class BankAccountList {
     }
 
 
-
+    public BankAccount[] getBankList()
+    {
+        return bankAccounts;
+    }
 }
 
 

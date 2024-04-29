@@ -8,9 +8,11 @@ public class BankAccount {
     private double InterestRate;
 
 
-    public BankAccount() {
-
-        }
+    public BankAccount(String name, String accountNumber, double balance) {
+        this.Name = name;
+        this.AccountNumber = accountNumber;
+        this.Balance = balance;
+    }
 
 
     public BankAccount(String Name, String AccountNumber, double Balance, double InterestRate ) {
