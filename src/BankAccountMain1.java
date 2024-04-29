@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankAccountMain1 {
@@ -41,32 +42,34 @@ public class BankAccountMain1 {
                     System.out.println("[N] Search by  name");
                     System.out.println("Enter: ");
                     scanner = new Scanner(System.in);
-                     String str = scanner.nextLine();
-
-                    switch (str){
-
-                        case "i" -> {
+                    String str = scanner.nextLine();
+                    switch(str)
+                    {
+                        case "i" ->
+                        {
                             System.out.print("Enter account index to open account: ");
                             scanner = new Scanner(System.in);
-                            index = scanner.nextInt();
-                            BankAccount account = List.searchByIndex(index);
+                            int i = scanner.nextInt();
+                            BankAccount account = List.searchByIndex(i);
                         }
-                        case  "a" -> {
+                        case "a" ->
+                        {
                             System.out.print("Enter account number to open account: ");
                             scanner = new Scanner(System.in);
                             accountNumber = scanner.nextLine();
                             BankAccount account = List.searchByAccountNumber(accountNumber);
                         }
-                        case  "n" -> {
+                        case "n" ->
+                        {
                             System.out.print("Enter account name to open account: ");
                             scanner = new Scanner(System.in);
-                            name = scanner.nextLine();
-                            BankAccount account = List.searchByName(name);
+                            accountName = scanner.nextLine();
+                            BankAccount account = List.searchByName(accountName);
                         }
-                        default -> {
-
+                        default ->
+                        {
+                            throw new InputMismatchException();
                         }
-
                     }
 
 
