@@ -3,16 +3,14 @@ import java.util.InputMismatchException;
 
 public class BankAccountMain
 {
-    private static Scanner scanner;
-     public static void main (String[]args) {
+    private static final BankAccountList List = new BankAccountList(100);
+
+    public static void main (String[]args) {
 
          BankAccount acc1 = new BankAccount("Max", "9999", 8000, 0.05);
          BankAccount acc2 = new BankAccount("Ana", "8888", 9000, 0);
          BankAccount acc3 = new BankAccount("Terri", "7777", 7000, 0);
          BankAccount acc4 = new BankAccount("Fie", "2222", 1000, 0);
-
-
-         BankAccountList List = new BankAccountList(100);
          List.addAccount(acc1);
          List.addAccount(acc2);
          List.addAccount(acc3);
@@ -31,7 +29,6 @@ public class BankAccountMain
              System.out.println("====================================");
              System.out.println("Bank Account Menu:");
              System.out.println("====================================");
-             System.out.println("[O] Open Account");
              System.out.println("[S] Search Account");
              System.out.println("[A] Add New Account");
              System.out.println("[D] Display All Account");
@@ -47,171 +44,9 @@ public class BankAccountMain
                  scanner.nextLine();
                  continue;
              }
-
-             if(choice == 'o') {
-                 System.out.println("====================================");
-                 System.out.print("Enter account number to open account: ");
-                 scanner = new Scanner(System.in);
-                 accountNumber = scanner.nextLine();
-                 BankAccount account = List.searchByAccountNumber(accountNumber);
-                 if (account != null) {
-                     System.out.println("====================================");
-                     System.out.println("Account Details:");
-                     System.out.println(account); // Print account details
-
-                     System.out.println("====================================");
-                     System.out.println("\nOptions:");
-                     System.out.println("====================================");
-                     System.out.println("1. Withdraw Money");
-                     System.out.println("2. Deposit Money");
-                     System.out.println("3. Delete Account");
-                     System.out.println("====================================");
-                     System.out.print("Enter your choice (1 - 3): ");
-
-                     int subChoice;
-                     try {
-                         subChoice = scanner.nextInt();
-                     } catch (InputMismatchException e) {
-                         scanner.nextLine();
-                         break;// Clear the scanner buffer
-                         // Skip to the next iteration of the case block
-                     }
-
-                     switch (subChoice) {
-                         case 1:
-                             System.out.print("\nEnter amount to withdraw: ");
-                             amount = scanner.nextDouble();
-                             boolean withdrawSuccess = List.withdraw(accountNumber, amount);
-                             if (withdrawSuccess) {
-                                 System.out.println("====================================");
-
-                                 System.out.println("\nWITHDREW: " + amount +
-                                         "\nINTEREST: " + account.getInterestRate());
-                                 account.addInterest();
-                                 System.out.println("BALANCE WITH INTEREST: " + account.getBalance());
-                                 System.out.println("Withdrawal successful.");
-                                 System.out.println("====================================");
-                                 System.out.println("Do you want to save the account? (y/n): ");
-                                 scanner = new Scanner(System.in);
-                                 String saveChoice = scanner.nextLine().toLowerCase();
-                                 if (saveChoice.equals("y")) continue;
-
-                             } else {
-                                 System.out.println("\nWithdrawal failed. Check account or amount.");
-                             }
-                             scanner.nextLine();
-                              continue;
-                         case 2:
-                             System.out.print("\nEnter amount to deposit: ");
-                             amount = scanner.nextDouble();
-                             boolean depositSuccess = List.deposit(accountNumber, amount);
-                             if (depositSuccess) {
-                                 System.out.println("====================================");
-
-                                 System.out.println("DEPOSITED: " + amount +
-                                         "\nBALANCE: " + account.getBalance());
-                                 System.out.println("====================================");
-
-
-                                 System.out.println("Deposit successful.");
-                             } else {
-                                 System.out.println("Deposit failed. Check account or amount.");
-                             }
-                             scanner.nextLine();
-                             continue;// Clear the scanner buffer after
-                         case 3:
-                             if (List.deleteBankAccount(account)) {
-                                 System.out.println("Account deleted successfully.");
-                             } else {
-                                 System.out.println("Account deletion failed. Account not found.");
-                             }
-
-                         default:
-                             System.out.println("Invalid sub-choice. Please enter 1, 2, or 3.");
-                     }
-                 } else {
-                     System.out.println("\nAccount not found.");
-
-                 }
-             }
-             if (choice == 's') {
-                 System.out.print("Enter account number to search: ");
-                 scanner = new Scanner(System.in);
-                 accountNumber = scanner.nextLine();
-                 BankAccount account = List.searchByAccountNumber(accountNumber);
-                 if (account != null) {
-                     System.out.println("====================================");
-                     System.out.println("\nAccount Details:");
-                     System.out.println("====================================");
-
-                     System.out.println(account);
-
-                     System.out.println("====================================");
-
-                     System.out.println("\nOptions:");
-                     System.out.println("1. Withdraw Money");
-                     System.out.println("2. Deposit Money");
-                     System.out.println("3. Delete Account");
-                     System.out.print("Enter your choice (1, 2, or 3): ");
-
-                     int subChoice = 0;
-                     try {
-                         subChoice = scanner.nextInt();
-                     } catch (InputMismatchException e) {
-                         System.out.println("Invalid input. Please enter a number between 1 and 3.");
-                         scanner.nextLine();
-                     }
-
-                     switch (subChoice) {
-                         case 1:
-                             System.out.print("\nEnter amount to withdraw: ");
-                             amount = scanner.nextDouble();
-                             boolean withdrawSuccess = List.withdraw(accountNumber, amount);
-                             if (withdrawSuccess)
-                             {
-                                 System.out.println("\nWITHDREW: " + amount +
-                                         "\nINTEREST: " + account.getInterestRate());
-                                 account.addInterest();
-                                 System.out.println("BALANCE WITH INTEREST: " + account.getBalance());
-                                 System.out.println("Withdrawal successful.");
-                             }
-                             else
-                             {
-                                 System.out.println("\nWithdrawal failed. Check account or amount.");
-                             }
-                             scanner.nextLine();
-                         case 2:
-                             System.out.print("\nEnter amount to deposit: ");
-                             amount = scanner.nextDouble();
-                             boolean depositSuccess = List.deposit(accountNumber, amount);
-                             if (depositSuccess)
-                             {
-                                 System.out.println("DEPOSITED: " + amount +
-                                         "\nBALANCE: " + account.getBalance());
-                                 System.out.println("Deposit successful.");
-                             }
-                             else
-                             {
-                                 System.out.println("Deposit failed. Check account or amount.");
-                             }
-                             scanner.nextLine();
-
-                         case 3:
-                             if (List.deleteBankAccount(account))
-                             {
-                                 System.out.println("Account deleted successfully.");
-                             }
-                             else
-                             {
-                                 System.out.println("Account deletion failed. Account not found.");
-                             }
-                             continue;
-                         default:
-                             System.out.println("Invalid sub-choice. Please enter 1, 2, or 3.");
-                     }
-                 } else {
-                     System.out.println("\nAccount not found.");
-                 }
+             if (choice == 's')
+             {
+                 searchAccount();
              }
 
              if (choice == 'a') {
@@ -263,7 +98,114 @@ public class BankAccountMain
          System.exit(0);
      }
 
- }
+    private static void openAccount(BankAccount b)
+    {
+        System.out.println("====================================");
+        System.out.println("Account Details:");
+        System.out.println(b); // Print account details
+
+        System.out.println("====================================");
+        System.out.println("\nOptions:");
+        System.out.println("====================================");
+        System.out.println("1. Withdraw Money");
+        System.out.println("2. Deposit Money");
+        System.out.println("3. Delete Account");
+        System.out.println("====================================");
+        System.out.print("Enter your choice (1 - 3): ");
+
+        int subChoice = new Scanner(System.in).nextInt();
+        double amount;
+        switch (subChoice) {
+            case 1:
+                System.out.print("\nEnter amount to withdraw: ");
+                amount = new Scanner(System.in).nextDouble();
+                boolean withdrawSuccess = List.withdraw(b.getAccountNumber(), amount);
+                if (withdrawSuccess) {
+                    System.out.println("====================================");
+
+                    System.out.println("\nWITHDREW: " + amount +
+                            "\nINTEREST: " + b.getInterestRate());
+                    b.addInterest();
+                    System.out.println("BALANCE WITH INTEREST: " + b.getBalance());
+                    System.out.println("Withdrawal successful.");
+                    System.out.println("====================================");
+
+                } else {
+                    System.out.println("\nWithdrawal failed. Check account or amount.");
+                }
+                new Scanner(System.in).nextLine();
+                break;
+            case 2:
+                System.out.print("\nEnter amount to deposit: ");
+                amount = new Scanner(System.in).nextDouble();
+                boolean depositSuccess = List.deposit(b.getAccountNumber(), amount);
+                if (depositSuccess) {
+                    System.out.println("====================================");
+
+                    System.out.println("DEPOSITED: " + amount +
+                            "\nBALANCE: " + b.getBalance());
+                    System.out.println("====================================");
+
+
+                    System.out.println("Deposit successful.");
+                } else {
+                    System.out.println("Deposit failed. Check account or amount.");
+                }
+                new Scanner(System.in).nextLine();
+                break;
+            case 3:
+                if (List.deleteBankAccount(b)) {
+                    System.out.println("Account deleted successfully.");
+                } else {
+                    System.out.println("Account deletion failed. Account not found.");
+                }
+                break;
+            default:
+                System.out.println("Invalid sub-choice. Please enter 1, 2, or 3.");
+        }
+    }
+
+    private static void searchAccount()
+    {
+        System.out.println("[I] Search by index");
+        System.out.println("[A] Search by account number");
+        System.out.println("[N] Search by name");
+        System.out.println("Enter: ");
+        Scanner scanner = new Scanner(System.in);
+        char c = scanner.nextLine().toLowerCase().charAt(0);
+        switch(c)
+        {
+            case 'i':
+            {
+                System.out.print("Enter account index to open account: ");
+                scanner = new Scanner(System.in);
+                int i = scanner.nextInt();
+                BankAccount account = List.searchByIndex(i);
+                openAccount(account);
+                break;
+            }
+            case 'a':
+            {
+                System.out.print("Enter account number to open account: ");
+                scanner = new Scanner(System.in);
+                String accountNumber = scanner.nextLine();
+                BankAccount account = List.searchByAccountNumber(accountNumber);
+                openAccount(account);
+                break;
+            }
+            case 'n':
+            {
+                System.out.print("Enter account name to open account: ");
+                scanner = new Scanner(System.in);
+                String accountName = scanner.nextLine();
+                BankAccount account = List.searchByName(accountName);
+                openAccount(account);
+                break;
+            }
+        }
+    }
+
+}
 
 
 
