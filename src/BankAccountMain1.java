@@ -13,7 +13,9 @@ public class BankAccountMain1 {
         String accountName;
         double amount;
         String name;
-        double interest;
+        int index;
+
+
 
 
         do {
@@ -38,6 +40,19 @@ public class BankAccountMain1 {
                     System.out.println("[A] Search by account number");
                     System.out.println("[N] Search by  name");
                     System.out.println("Enter: ");
+                    Scanner str = new Scanner(System.in);
+
+                    switch (str)
+
+                        case "i" -> {
+                            System.out.print("Enter account index to open account: ");
+                            scanner = new Scanner(System.in);
+                            accountNumber = scanner.nextLine();
+                            BankAccount account = List.searchByAccountNumber(accountNumber);
+                        }
+                    }
+
+
 
                 }
                 case 'd' -> {
