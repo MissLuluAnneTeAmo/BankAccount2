@@ -14,6 +14,7 @@ public class BankAccountMain1 {
         double amount;
         String name;
         int index;
+        double balance;
 
 
 
@@ -23,7 +24,6 @@ public class BankAccountMain1 {
             System.out.println("Bank Account Menu:");
             System.out.println("====================================");
             System.out.println("[O] Open Account");
-            System.out.println("[S] Search Account");
             System.out.println("[A] Add New Account");
             System.out.println("[D] Display All Account");// Added feature
             System.out.println("[E] Exit");
@@ -72,7 +72,16 @@ public class BankAccountMain1 {
 
 
                 }
-                case 'd' -> {
+                case 'a' -> {
+                    System.out.print("Enter account number: ");
+                    scanner = new Scanner(System.in);
+                    accountNumber = scanner.nextLine();
+                    BankAccount account = List.searchByAccountNumber(accountNumber);
+                    System.out.print("Enter account name: ");
+                    scanner = new Scanner(System.in);
+                    name = scanner.nextLine();
+                    account = List.searchByName(name);
+
                 }
                 default -> {}
             }
