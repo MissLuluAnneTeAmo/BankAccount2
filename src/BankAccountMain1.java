@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankAccountMain1 {
@@ -40,15 +41,34 @@ public class BankAccountMain1 {
                     System.out.println("[A] Search by account number");
                     System.out.println("[N] Search by  name");
                     System.out.println("Enter: ");
-                    Scanner str = new Scanner(System.in);
-
-                    switch (str)
-
-                        case "i" -> {
+                    scanner = new Scanner(System.in);
+                    String str = scanner.nextLine();
+                    switch(str)
+                    {
+                        case "i" ->
+                        {
                             System.out.print("Enter account index to open account: ");
+                            scanner = new Scanner(System.in);
+                            int i = scanner.nextInt();
+                            BankAccount account = List.searchByIndex(i);
+                        }
+                        case "a" ->
+                        {
+                            System.out.print("Enter account number to open account: ");
                             scanner = new Scanner(System.in);
                             accountNumber = scanner.nextLine();
                             BankAccount account = List.searchByAccountNumber(accountNumber);
+                        }
+                        case "n" ->
+                        {
+                            System.out.print("Enter account name to open account: ");
+                            scanner = new Scanner(System.in);
+                            accountName = scanner.nextLine();
+                            BankAccount account = List.searchByName(accountName);
+                        }
+                        default ->
+                        {
+                            throw new InputMismatchException();
                         }
                     }
 

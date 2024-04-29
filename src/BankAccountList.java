@@ -50,16 +50,12 @@ public class BankAccountList {
     public BankAccount searchByName(String name) {
         for (BankAccount b : bankAccounts) {
             if (b != null) {
-                if (b.getName().toLowerCase().contains(name.toLowerCase()) || name.toLowerCase().contains(b.getName().toLowerCase())) {
-
-
+                if (b.getName().toLowerCase().contains(name.toLowerCase()) || name.toLowerCase().contains(b.getName().toLowerCase()))
+                {
+                    return b;
                 }
             }
-            return b;
-
-
         }
-
         return null;
     }
 
