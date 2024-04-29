@@ -40,16 +40,33 @@ public class BankAccountMain1 {
                     System.out.println("[A] Search by account number");
                     System.out.println("[N] Search by  name");
                     System.out.println("Enter: ");
-                    Scanner str = new Scanner(System.in);
+                    scanner = new Scanner(System.in);
+                     String str = scanner.nextLine();
 
-                    switch (str)
+                    switch (str){
 
                         case "i" -> {
                             System.out.print("Enter account index to open account: ");
                             scanner = new Scanner(System.in);
+                            index = scanner.nextInt();
+                            BankAccount account = List.searchByIndex(index);
+                        }
+                        case  "a" -> {
+                            System.out.print("Enter account number to open account: ");
+                            scanner = new Scanner(System.in);
                             accountNumber = scanner.nextLine();
                             BankAccount account = List.searchByAccountNumber(accountNumber);
                         }
+                        case  "n" -> {
+                            System.out.print("Enter account name to open account: ");
+                            scanner = new Scanner(System.in);
+                            name = scanner.nextLine();
+                            BankAccount account = List.searchByName(name);
+                        }
+                        default -> {
+
+                        }
+
                     }
 
 
