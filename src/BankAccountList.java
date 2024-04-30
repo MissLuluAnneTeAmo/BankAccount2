@@ -23,6 +23,14 @@ public class BankAccountList {
 
     }
 
+    public BankAccountList(BankAccount2[] lists)
+    {
+        super();
+        capacity = Short.MAX_VALUE;
+        bankAccount2s = new BankAccount2[capacity];
+        System.arraycopy(bankAccount2s, 0, lists, 0, lists.length);
+    }
+
     public void addAccount(BankAccount2 bankAccount2) {
         if (numOfAccount < capacity) {
             bankAccount2s[numOfAccount] = bankAccount2;

@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -9,7 +7,7 @@ public class BankAccountMain
     private static final BankAccountList List = new BankAccountList();
     private static final String directory = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "LoggingFile.csv";
 
-    public static void main (String[]args) throws IOException
+    public static void main (String[]args)
     {
 
          createLogs();
@@ -98,18 +96,13 @@ public class BankAccountMain
         System.exit(0);
      }
 
-    private static void createLogs() throws IOException
+    private static void createLogs()
     {
-        BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000);
-        BankAccount2 acc2 = new BankAccount2("Ana", "8888", 9000);
-        BankAccount2 acc3 = new BankAccount2("Terri", "7777", 7000);
-        BankAccount2 acc4 = new BankAccount2("Fie", "2222", 1000);
-        List.addAccount(acc1);
-        List.addAccount(acc2);
-        List.addAccount(acc3);
-        List.addAccount(acc4);
-
-        BankAccountCSVHandler.writeCSV(directory, List);
+        if(!new File(directory).exists())
+        {
+            BankAccountCSVHandler.writeCSV(directory, null);
+        }
+        else BankAccountCSVHandler.readCSV(directory);
     }
 
     private static void openAccount(BankAccount2 b)
