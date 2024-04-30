@@ -12,6 +12,7 @@ public class BankAccountList {
 
     public BankAccountList() {
         capacity = Short.MAX_VALUE;
+        bankAccount2s = new BankAccount2[capacity];
         numOfAccount = 0;
     }
 

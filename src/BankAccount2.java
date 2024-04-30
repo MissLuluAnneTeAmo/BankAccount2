@@ -15,6 +15,8 @@ public class BankAccount2 {
     }
 
 
+
+    //@Deprecated
     public BankAccount2(String Name, String AccountNumber, double Balance, double InterestRate ) {
         this.Name = Name;
         this.AccountNumber = AccountNumber;

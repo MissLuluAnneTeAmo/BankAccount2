@@ -1,22 +1,18 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class BankAccountMain
 {
-    private static final BankAccountList List = new BankAccountList(100);
+    private static final BankAccountList List = new BankAccountList();
+    private static final String directory = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "LoggingFile.csv";
 
-    public static void main (String[]args) {
+    public static void main (String[]args) throws IOException
+    {
 
-         BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000, 0.05);
-         BankAccount2 acc2 = new BankAccount2("Ana", "8888", 9000, 0);
-         BankAccount2 acc3 = new BankAccount2("Terri", "7777", 7000, 0);
-         BankAccount2 acc4 = new BankAccount2("Fie", "2222", 1000, 0);
-         List.addAccount(acc1);
-         List.addAccount(acc2);
-         List.addAccount(acc3);
-         List.addAccount(acc4);
-         List.searchByAccountNumber("9999");
-         List.searchByAccountNumber("8888");
+         createLogs();
 
          char choice = ' ';
          String accountNumber;
@@ -59,9 +55,6 @@ public class BankAccountMain
                  System.out.print("Enter initial balance: ");
                  scanner = new Scanner(System.in);
                  amount = scanner.nextDouble();
-                 System.out.print("Enter interest: ");
-                 scanner = new Scanner(System.in);
-                 interest = scanner.nextDouble();
 
                  if (amount < 0)
                  {
@@ -69,7 +62,7 @@ public class BankAccountMain
                  }
                  else
                  {
-                     BankAccount2 newAccount = new BankAccount2(name, accountNumber, amount, interest); // Set default interest rate
+                     BankAccount2 newAccount = new BankAccount2(name, accountNumber, amount); // Set default interest rate
 
                      System.out.println("\n------------------------------------------");
                      System.out.println("\nDo you want to save the new account? (y/n): ");
@@ -101,9 +94,23 @@ public class BankAccountMain
         System.out.println("\n--------------------------------------");
         System.out.println("\n     Exiting Bank Account Menu.");
         System.out.println("\n--------------------------------------");
-
+        BankAccountCSVHandler.writeCSV(directory, List);
         System.exit(0);
      }
+
+    private static void createLogs() throws IOException
+    {
+        BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000);
+        BankAccount2 acc2 = new BankAccount2("Ana", "8888", 9000);
+        BankAccount2 acc3 = new BankAccount2("Terri", "7777", 7000);
+        BankAccount2 acc4 = new BankAccount2("Fie", "2222", 1000);
+        List.addAccount(acc1);
+        List.addAccount(acc2);
+        List.addAccount(acc3);
+        List.addAccount(acc4);
+
+        BankAccountCSVHandler.writeCSV(directory, List);
+    }
 
     private static void openAccount(BankAccount2 b)
     {
