@@ -1,6 +1,6 @@
 
 
-public class BankAccount {
+public class BankAccount2 {
 
     private String Name;
     private String AccountNumber;
@@ -8,14 +8,14 @@ public class BankAccount {
     private double InterestRate;
 
 
-    public BankAccount(String name, String accountNumber, double balance) {
+    public BankAccount2(String name, String accountNumber, double balance) {
         this.Name = name;
         this.AccountNumber = accountNumber;
         this.Balance = balance;
     }
 
 
-    public BankAccount(String Name, String AccountNumber, double Balance, double InterestRate ) {
+    public BankAccount2(String Name, String AccountNumber, double Balance, double InterestRate ) {
         this.Name = Name;
         this.AccountNumber = AccountNumber;
         this.Balance = Balance;

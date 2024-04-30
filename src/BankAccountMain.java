@@ -7,10 +7,10 @@ public class BankAccountMain
 
     public static void main (String[]args) {
 
-         BankAccount acc1 = new BankAccount("Max", "9999", 8000, 0.05);
-         BankAccount acc2 = new BankAccount("Ana", "8888", 9000, 0);
-         BankAccount acc3 = new BankAccount("Terri", "7777", 7000, 0);
-         BankAccount acc4 = new BankAccount("Fie", "2222", 1000, 0);
+         BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000, 0.05);
+         BankAccount2 acc2 = new BankAccount2("Ana", "8888", 9000, 0);
+         BankAccount2 acc3 = new BankAccount2("Terri", "7777", 7000, 0);
+         BankAccount2 acc4 = new BankAccount2("Fie", "2222", 1000, 0);
          List.addAccount(acc1);
          List.addAccount(acc2);
          List.addAccount(acc3);
@@ -50,7 +50,7 @@ public class BankAccountMain
              }
 
              if (choice == 'a') {
-                 System.out.print("Enter account number: ");
+                 System.out.print("\nEnter account number: ");
                  scanner = new Scanner(System.in);
                  accountNumber = scanner.nextLine();
                  System.out.print("Enter account name: ");
@@ -65,20 +65,24 @@ public class BankAccountMain
 
                  if (amount < 0)
                  {
-                     System.out.println("Error: Initial balance cannot be negative.");
+                     System.out.println("!Error: Initial balance cannot be negative!");
                  }
                  else
                  {
-                     BankAccount newAccount = new BankAccount(name, accountNumber, amount, interest); // Set default interest rate
+                     BankAccount2 newAccount = new BankAccount2(name, accountNumber, amount, interest); // Set default interest rate
 
-                     System.out.println("Do you want to save the new account? (y/n): ");
+                     System.out.println("\n------------------------------------------");
+                     System.out.println("\nDo you want to save the new account? (y/n): ");
                      scanner = new Scanner(System.in);
                      String saveChoice = scanner.nextLine().toLowerCase(); // Convert input to lowercase
 
                      if (saveChoice.equals("y"))
                      {
                          List.addAccount(newAccount);
-                         System.out.println("Account added and saved successfully.");
+                         System.out.println("\n-------------------------------------");
+                         System.out.println("\nAccount added and saved successfully.");
+                         System.out.println("\n-------------------------------------");
+
                      }
                      else
                      {
@@ -89,16 +93,19 @@ public class BankAccountMain
              }
 
              if (choice == 'd') {
-                 System.out.println("=========================");
+                 System.out.println("\n=========================");
                  BankAccountList.printBankAccount();
-                 System.out.println("=========================");
+                 System.out.println("\n=========================");
              }
          } while (choice != 'e');
-         System.out.println("Exiting Bank Account Menu.");
-         System.exit(0);
+        System.out.println("\n--------------------------------------");
+        System.out.println("\n     Exiting Bank Account Menu.");
+        System.out.println("\n--------------------------------------");
+
+        System.exit(0);
      }
 
-    private static void openAccount(BankAccount b)
+    private static void openAccount(BankAccount2 b)
     {
         System.out.println("====================================");
         System.out.println("Account Details:");
@@ -127,11 +134,14 @@ public class BankAccountMain
                             "\nINTEREST: " + b.getInterestRate());
                     b.addInterest();
                     System.out.println("BALANCE WITH INTEREST: " + b.getBalance());
-                    System.out.println("Withdrawal successful.");
                     System.out.println("====================================");
+                    System.out.println("\n--------------------------------------");
+                    System.out.println("\n        Withdrawal successful.");
+                    System.out.println("\n--------------------------------------");
+
 
                 } else {
-                    System.out.println("\nWithdrawal failed. Check account or amount.");
+                    System.out.println("\n!Withdrawal failed. Check account or amount!");
                 }
                 new Scanner(System.in).nextLine();
                 break;
@@ -147,7 +157,10 @@ public class BankAccountMain
                     System.out.println("====================================");
 
 
-                    System.out.println("Deposit successful.");
+                    System.out.println("\n--------------------------------------");
+                    System.out.println("\n        Deposit successful.");
+                    System.out.println("\n--------------------------------------");
+
                 } else {
                     System.out.println("Deposit failed. Check account or amount.");
                 }
@@ -155,7 +168,9 @@ public class BankAccountMain
                 break;
             case 3:
                 if (List.deleteBankAccount(b)) {
-                    System.out.println("Account deleted successfully.");
+                    System.out.println("\n--------------------------------------");
+                    System.out.println("\n     Account deleted successfully.");
+                    System.out.println("\n--------------------------------------");
                 } else {
                     System.out.println("Account deletion failed. Account not found.");
                 }
@@ -167,38 +182,43 @@ public class BankAccountMain
 
     private static void searchAccount()
     {
+        System.out.println("\n--------------------------------------");
         System.out.println("[I] Search by index");
         System.out.println("[A] Search by account number");
         System.out.println("[N] Search by name");
-        System.out.println("Enter: ");
+        System.out.println("--------------------------------------");
+        System.out.print("Enter: ");
         Scanner scanner = new Scanner(System.in);
         char c = scanner.nextLine().toLowerCase().charAt(0);
         switch(c)
         {
             case 'i':
             {
+                System.out.println("\n====================================");
                 System.out.print("Enter account index to open account: ");
                 scanner = new Scanner(System.in);
                 int i = scanner.nextInt();
-                BankAccount account = List.searchByIndex(i);
+                BankAccount2 account = List.searchByIndex(i);
                 openAccount(account);
                 break;
             }
             case 'a':
             {
+                System.out.println("\n====================================");
                 System.out.print("Enter account number to open account: ");
                 scanner = new Scanner(System.in);
                 String accountNumber = scanner.nextLine();
-                BankAccount account = List.searchByAccountNumber(accountNumber);
+                BankAccount2 account = List.searchByAccountNumber(accountNumber);
                 openAccount(account);
                 break;
             }
             case 'n':
             {
+                System.out.println("\n====================================");
                 System.out.print("Enter account name to open account: ");
                 scanner = new Scanner(System.in);
                 String accountName = scanner.nextLine();
-                BankAccount account = List.searchByName(accountName);
+                BankAccount2 account = List.searchByName(accountName);
                 openAccount(account);
                 break;
             }

@@ -7,7 +7,7 @@ public class BankAccountMain1 {
     public static void main(String[] args) {
         char choice = ' ';
         BankAccountList List = new BankAccountList(100);
-        BankAccount acc1 = new BankAccount("Max", "9999", 8000, 0.05);
+        BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000, 0.05);
         List.addAccount(acc1);
 
         String accountNumber;
@@ -50,21 +50,21 @@ public class BankAccountMain1 {
                             System.out.print("Enter account index to open account: ");
                             scanner = new Scanner(System.in);
                             int i = scanner.nextInt();
-                            BankAccount account = List.searchByIndex(i);
+                            BankAccount2 account = List.searchByIndex(i);
                         }
                         case "a" ->
                         {
                             System.out.print("Enter account number to open account: ");
                             scanner = new Scanner(System.in);
                             accountNumber = scanner.nextLine();
-                            BankAccount account = List.searchByAccountNumber(accountNumber);
+                            BankAccount2 account = List.searchByAccountNumber(accountNumber);
                         }
                         case "n" ->
                         {
                             System.out.print("Enter account name to open account: ");
                             scanner = new Scanner(System.in);
                             accountName = scanner.nextLine();
-                            BankAccount account = List.searchByName(accountName);
+                            BankAccount2 account = List.searchByName(accountName);
                         }
                         default ->
                         {
@@ -79,7 +79,7 @@ public class BankAccountMain1 {
                     System.out.print("Enter account number: ");
                     scanner = new Scanner(System.in);
                     accountNumber = scanner.nextLine();
-                    BankAccount account = List.searchByAccountNumber(accountNumber);
+                    BankAccount2 account = List.searchByAccountNumber(accountNumber);
                     System.out.print("Enter account name: ");
                     scanner = new Scanner(System.in);
                     name = scanner.nextLine();

@@ -18,7 +18,7 @@ public class BankAccountCSVHandler {
             {
                 String[] row = line.split(",");
                 double balance = Double.parseDouble(row[2]);
-                BankAccount b = new BankAccount(row[0], row[1], balance);
+                BankAccount2 b = new BankAccount2(row[0], row[1], balance);
                 list.addAccount(b);
             }
         }
@@ -32,7 +32,7 @@ public class BankAccountCSVHandler {
     {
         try {
             FileWriter writer = new FileWriter(fileName);
-            for(BankAccount bank : list.getBankList())
+            for(BankAccount2 bank : list.getBankList())
             {
                 for(int i = 0; i < list.getBankList().length; i++)
                 {
