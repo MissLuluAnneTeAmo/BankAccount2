@@ -7,7 +7,7 @@ public class BankAccountMain1 {
     public static void main(String[] args) {
         char choice = ' ';
         BankAccountList List = new BankAccountList(100);
-        BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000, 0.05);
+        BankAccount2 acc1 = new BankAccount2("Max", "9999", 8000);
         List.addAccount(acc1);
 
         String accountNumber;

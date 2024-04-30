@@ -34,12 +34,11 @@ public class BankAccountCSVHandler {
             FileWriter writer = new FileWriter(fileName);
             for(BankAccount2 bank : list.getBankList())
             {
-                for(int i = 0; i < list.getBankList().length; i++)
+                if(bank != null)
                 {
-                    String line = bank.getName() + "," + bank.getAccountNumber() + "," + bank.getBalance();
-                    writer.write(line + "\n");
+                    String line = bank.getName() + "," + bank.getAccountNumber() + "," + bank.getBalance() + "\n";
+                    writer.write(line);
                 }
-                writer.append("\n");
             }
             writer.close();
         }
