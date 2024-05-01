@@ -84,13 +84,15 @@ public class BankAccountList {
         }
     }
 
-    public boolean deleteBankAccount(BankAccount2 bankAccount2) {
+    public boolean deleteBankAccount(BankAccount2 bankAccount2, String directory) {
         for (int i = 0; i < numOfAccount; i++) {
             if (bankAccount2s[i] == bankAccount2) {
-                for (int j = i; j < numOfAccount - 1; j++) {
-                    bankAccount2s[j] = bankAccount2s[j + 1];
-                }
+                BankAccount2[] tempArr = new BankAccount2[numOfAccount - 1];
+                System.arraycopy(bankAccount2s, 0, tempArr, 0, i);
+                System.arraycopy(bankAccount2s, i + 1, tempArr, i, numOfAccount - i - 1);
+                bankAccount2s = tempArr;
                 numOfAccount--;
+                BankAccountCSVHandler.writeCSV(directory, this);
                 return true;
             }
         }

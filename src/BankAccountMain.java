@@ -104,9 +104,7 @@ public class BankAccountMain
         }
         else BankAccountCSVHandler.readCSV(directory);
     }
-
-    private static void openAccount(BankAccount2 b)
-    {
+    private static void openAccount(BankAccount2 b, boolean searchedAccount) {
         System.out.println("====================================");
         System.out.println("Account Details:");
         System.out.println(b); // Print account details
@@ -114,11 +112,14 @@ public class BankAccountMain
         System.out.println("====================================");
         System.out.println("\nOptions:");
         System.out.println("====================================");
+
         System.out.println("1. Withdraw Money");
         System.out.println("2. Deposit Money");
         System.out.println("3. Delete Account");
+
         System.out.println("====================================");
-        System.out.print("Enter your choice (1 - 3): ");
+
+        System.out.print("Enter your choice (1 - " + (searchedAccount ? "3" : "4") + "): ");
 
         int subChoice = new Scanner(System.in).nextInt();
         double amount;
@@ -142,8 +143,8 @@ public class BankAccountMain
 
                 } else {
                     System.out.println("\n!Withdrawal failed. Check account or amount!");
+                    new Scanner(System.in).nextLine();
                 }
-                new Scanner(System.in).nextLine();
                 break;
             case 2:
                 System.out.print("\nEnter amount to deposit: ");
@@ -163,11 +164,11 @@ public class BankAccountMain
 
                 } else {
                     System.out.println("Deposit failed. Check account or amount.");
+                    new Scanner(System.in).nextLine();
                 }
-                new Scanner(System.in).nextLine();
                 break;
             case 3:
-                if (List.deleteBankAccount(b)) {
+                if (List.deleteBankAccount(b, directory)) {
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n     Account deleted successfully.");
                     System.out.println("\n--------------------------------------");
@@ -190,6 +191,8 @@ public class BankAccountMain
         System.out.print("Enter: ");
         Scanner scanner = new Scanner(System.in);
         char c = scanner.nextLine().toLowerCase().charAt(0);
+
+
         switch(c)
         {
             case 'i':
@@ -199,9 +202,14 @@ public class BankAccountMain
                 scanner = new Scanner(System.in);
                 int i = scanner.nextInt();
                 BankAccount2 account = List.searchByIndex(i);
-                openAccount(account);
+                if (account != null) {
+                    openAccount(account, true);// Pass flag indicating searched account
+                } else {
+                    System.out.println("\nAccount not found.");
+                }
                 break;
             }
+
             case 'a':
             {
                 System.out.println("\n====================================");
@@ -209,7 +217,11 @@ public class BankAccountMain
                 scanner = new Scanner(System.in);
                 String accountNumber = scanner.nextLine();
                 BankAccount2 account = List.searchByAccountNumber(accountNumber);
-                openAccount(account);
+                if (account != null) {
+                    openAccount(account, true);// Pass flag indicating searched account
+                } else {
+                    System.out.println("\nAccount not found.");
+                }
                 break;
             }
             case 'n':
@@ -219,13 +231,22 @@ public class BankAccountMain
                 scanner = new Scanner(System.in);
                 String accountName = scanner.nextLine();
                 BankAccount2 account = List.searchByName(accountName);
-                openAccount(account);
+                if (account != null) {
+                    openAccount(account, true);// Pass flag indicating searched account
+                } else {
+                    System.out.println("\nAccount not found.");
+                }
                 break;
             }
+
         }
+
+
     }
 
+
 }
+
 
 
 
