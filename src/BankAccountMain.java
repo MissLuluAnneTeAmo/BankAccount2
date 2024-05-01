@@ -112,7 +112,8 @@ public class BankAccountMain
                  System.out.println("\n=========================");
                  BankAccountList.printBankAccount();
                  System.out.println("\n=========================");
-                 System.out.println("[M] Menu");
+                 System.out.println(">>>>>");
+                 scanner.nextLine();
 
              }
              if  (choice == 'i'){
@@ -158,10 +159,10 @@ public class BankAccountMain
 
         System.out.println("1. Withdraw Money");
         System.out.println("2. Deposit Money");
-        System.out.println("3. Menu");
-        System.out.println("4. Delete Account");
-        System.out.println("5. Add Interest");
+        System.out.println("3. Delete Account");
+        System.out.println("4. Add Interest");
         System.out.println("5. Set Interest");
+        System.out.println("6. Menu");
 
         System.out.println("====================================");
 
@@ -219,8 +220,7 @@ public class BankAccountMain
                 }
             }
                 break;
-            case 3: break;
-            case 4:
+            case 3:
                 if (List.deleteBankAccount(b, directory)) {
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n     Account deleted successfully.");
@@ -229,11 +229,11 @@ public class BankAccountMain
                     System.out.println("Account deletion failed. Account not found.");
                 }
                 break;
-            case 5:
+            case 4:
                 System.out.println("Set interest rate to your bank account: ");
                 int interest = new Scanner(System.in).nextInt();
                 b.setInterest((double) interest / 100);
-            case 6:
+            case 5:
                 System.out.println("Update name: ");
                 String name = new Scanner(System.in).nextLine();
                 b.setName(name);
@@ -243,7 +243,9 @@ public class BankAccountMain
 
             default:
                 System.out.println("Invalid sub-choice. Please enter 1 - 4.");
+            case 6: break;
         }
+
     }
 
     private static void searchAccount()
