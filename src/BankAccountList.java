@@ -139,8 +139,8 @@ public class BankAccountList {
         // Deposits money into a specific account if it exists and the amount is positive.
         BankAccount2 account = searchByAccountNumber(accountNumber);
         if (account != null) {
-            if (amount > 0) { // Check for positive deposit amount
-                account.setBalance(account.getBalance() + amount);
+            if (amount >= 1000) { // Check for positive deposit amount
+                account.setBalance((account.getBalance() + amount) * (1 + account.getInterest()));
                 return true;
             } else {
                 System.out.println("Invalid deposit amount. Please enter a positive value.");

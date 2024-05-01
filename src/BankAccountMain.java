@@ -92,8 +92,7 @@ public class BankAccountMain
                  System.out.println("\n=========================");
                  BankAccountList.printBankAccount();
                  System.out.println("\n=========================");
-                 System.out.println("[M] Menu");
-                 scanner = new Scanner(System.in);
+                  scanner.nextLine();
 
              }
              if  (choice == 'i'){
@@ -123,7 +122,7 @@ public class BankAccountMain
             // Read existing CSV data
             BankAccountCSVHandler.readCSV(directory);
     }
-    private static void openAccount(BankAccount2 b, boolean searchedAccount) {
+    private static void openAccount(BankAccount2 b) {
         System.out.println("====================================");
         System.out.println("Account Details:");
         System.out.println(b); // Print account details
@@ -134,14 +133,14 @@ public class BankAccountMain
 
         System.out.println("1. Withdraw Money");
         System.out.println("2. Deposit Money");
-        System.out.println("3. Menu");
-        System.out.println("4. Delete Account");
-        System.out.println("5. Add Interest");
-        System.out.println("5. Set Interest");
+        System.out.println("3. Delete Account");
+        System.out.println("4. Add Interest");
+        System.out.println("5. Update Account");
+        System.out.println("6. Menu");
 
         System.out.println("====================================");
 
-        System.out.print("Enter your choice (1 - " + (searchedAccount ? "3" : "4") + "): ");
+        System.out.print("Enter your choice: " );
 
         int subChoice = new Scanner(System.in).nextInt();
         double amount;
@@ -195,8 +194,7 @@ public class BankAccountMain
                 }
             }
                 break;
-            case 3: break;
-            case 4:
+            case 3:
                 if (List.deleteBankAccount(b, directory)) {
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n     Account deleted successfully.");
@@ -206,22 +204,27 @@ public class BankAccountMain
                 }
                 break;
                 // @iid3rp signature here
-            case 5:
+            case 4:
                 System.out.println("Set interest rate to your bank account: ");
-                int interest = new Scanner(System.in).nextInt();
-                b.setInterest((double) interest / 100);
-                // @iid3rp
-            case 6:
+                double interest = new Scanner(System.in).nextDouble();
+                b.setInterest(interest / 100);
+                break;
+
+            case 5:
                 System.out.println("Update name: ");
                 String name = new Scanner(System.in).nextLine();
                 b.setName(name);
                 System.out.println("\n--------------------------------------");
                 System.out.println("\n     Account edited successfully.");
                 System.out.println("\n--------------------------------------");
+                break;
 
             default:
-                System.out.println("Invalid sub-choice. Please enter 1 - 4.");
+                System.out.println("Invalid sub-choice. Please enter 1 - 6.");
+            case 6: break;
         }
+
+
     }
 
     private static void searchAccount()
@@ -248,7 +251,7 @@ public class BankAccountMain
                 int i = scanner.nextInt();
                 BankAccount2 account = List.searchByIndex(i);
                 if (account != null) {
-                    openAccount(account, true);// Pass flag indicating searched account
+                    openAccount(account);// Pass flag indicating searched account
                 } else {
                     System.out.println("\nAccount not found.");
                 }
@@ -263,7 +266,7 @@ public class BankAccountMain
                 String accountNumber = scanner.nextLine();
                 BankAccount2 account = List.searchByAccountNumber(accountNumber);
                 if (account != null) {
-                    openAccount(account, true);// Pass flag indicating searched account
+                    openAccount(account);// Pass flag indicating searched account
                 } else {
                     System.out.println("\nAccount not found.");
                 }
@@ -277,7 +280,7 @@ public class BankAccountMain
                 String accountName = scanner.nextLine();
                 BankAccount2 account = List.searchByName(accountName);
                 if (account != null) {
-                    openAccount(account, true);// Pass flag indicating searched account
+                    openAccount(account);// Pass flag indicating searched account
                 } else {
                     System.out.println("\nAccount not found.");
                 }

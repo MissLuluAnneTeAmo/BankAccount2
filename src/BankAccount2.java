@@ -6,7 +6,7 @@ public class BankAccount2 {
     private String AccountNumber;
     private double Balance;
     private static double InterestRate;
-    private double interestRate;
+    private double interestRate = 0.05;
     /**
      * Constructs a BankAccount2 object with the specified name, account number, and balance.
      *
@@ -32,7 +32,7 @@ public class BankAccount2 {
         this.Name = Name;
         this.AccountNumber = AccountNumber;
         this.Balance = Balance;
-        this.InterestRate = InterestRate;
+        this.interestRate = InterestRate;
     }
 
 
@@ -94,9 +94,12 @@ public class BankAccount2 {
         return "\nNAME: " + Name +
                 "\nACCOUNT NUMBER: " + AccountNumber +
                 "\nBALANCE: " + Balance
-                +"\nInterest Rate: " + InterestRate ;
+                +"\nInterest Rate: " + interestRate ;
 
     }
 
 
+    public double getInterest() {
+        return interestRate;
+    }
 }
