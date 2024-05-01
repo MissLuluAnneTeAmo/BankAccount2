@@ -133,8 +133,6 @@ public class BankAccountList {
             return false;
         }
     }
-
-
     public BankAccount2[] getBankList()
     {
         return bankAccount2s;
