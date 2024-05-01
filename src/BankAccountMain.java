@@ -136,6 +136,8 @@ public class BankAccountMain
         System.out.println("2. Deposit Money");
         System.out.println("3. Menu");
         System.out.println("4. Delete Account");
+        System.out.println("5. Add Interest");
+        System.out.println("5. Set Interest");
 
         System.out.println("====================================");
 
@@ -203,6 +205,20 @@ public class BankAccountMain
                     System.out.println("Account deletion failed. Account not found.");
                 }
                 break;
+                // @iid3rp signature here
+            case 5:
+                System.out.println("Set interest rate to your bank account: ");
+                int interest = new Scanner(System.in).nextInt();
+                b.setInterest((double) interest / 100);
+                // @iid3rp
+            case 6:
+                System.out.println("Update name: ");
+                String name = new Scanner(System.in).nextLine();
+                b.setName(name);
+                System.out.println("\n--------------------------------------");
+                System.out.println("\n     Account edited successfully.");
+                System.out.println("\n--------------------------------------");
+
             default:
                 System.out.println("Invalid sub-choice. Please enter 1 - 4.");
         }
