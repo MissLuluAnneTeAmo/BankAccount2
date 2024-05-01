@@ -5,18 +5,28 @@ public class BankAccount2 {
     private String Name;
     private String AccountNumber;
     private double Balance;
-    private double InterestRate;
-
-
+    private static double InterestRate;
+    /**
+     * Constructs a BankAccount2 object with the specified name, account number, and balance.
+     *
+     * @param name        The name of the account holder.
+     * @param accountNumber The account number.
+     * @param balance      The initial balance of the account.
+     */
     public BankAccount2(String name, String accountNumber, double balance) {
         this.Name = name;
         this.AccountNumber = accountNumber;
         this.Balance = balance;
     }
 
-
-
-    //@Deprecated
+    /**
+     * @deprecated This constructor is deprecated as the interest rate is not a mandatory attribute
+     *             for creating a bank account. It is recommended to use the constructor that
+     *             only takes name, account number, and balance.
+     * Constructs a BankAccount2 object with the specified name, account number, balance, and interest rate.
+     *
+     */
+    @Deprecated
     public BankAccount2(String Name, String AccountNumber, double Balance, double InterestRate ) {
         this.Name = Name;
         this.AccountNumber = AccountNumber;
@@ -26,6 +36,7 @@ public class BankAccount2 {
 
 
 
+    // Getter and setter methods for Name, AccountNumber, Balance, and InterestRate
     public String getName() {
         return Name;
     }
@@ -54,22 +65,32 @@ public class BankAccount2 {
         return InterestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    public static void setInterestRate(double interestRate) {
         InterestRate = interestRate;
     }
 
+    /**
+     * Calculates and adds interest to the account balance.
+     */
     public void addInterest() {
         // Calculate the interest earned
-        double interest = Balance * InterestRate;
+        double interest = (1 + (InterestRate / 100));
 
         // Add the interest to the balance
         Balance += interest;
     }
 
+    /**
+     * Returns a string representation of the bank account object, including
+     * the name, account number, and balance.
+     *
+     * @return A string representation of the bank account object.
+     */
     public String toString() {
         return "\nNAME: " + Name +
                 "\nACCOUNT NUMBER: " + AccountNumber +
-                "\nBALANCE: " + Balance;
+                "\nBALANCE: " + Balance
+                +"\nInterest Rate: " + InterestRate ;
 
     }
 

@@ -5,27 +5,32 @@ import java.util.InputMismatchException;
 public class BankAccountMain
 {
     private static final BankAccountList List = new BankAccountList();
+    // File path for CSV data
     private static final String directory = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "LoggingFile.csv";
 
     public static void main (String[]args)
     {
 
-         createLogs();
+         createLogs();// Check/create and read CSV file
 
+        //Variables
          char choice = ' ';
          String accountNumber;
          String accountName;
          double amount;
          String name;
          double interest;
+
          do
          {
              System.out.println("====================================");
-             System.out.println("Bank Account Menu:");
+             System.out.println("             WELCOME");
              System.out.println("====================================");
+             System.out.println("BANK ACCOUNT MENU: ");
              System.out.println("[S] Search Account");
              System.out.println("[A] Add New Account");
              System.out.println("[D] Display All Account");
+             System.out.println("[I] Set Interest Rate");
              System.out.println("[E] Exit");
              System.out.println("====================================");
              System.out.print("\nEnter your choice: ");
@@ -35,7 +40,7 @@ public class BankAccountMain
                  choice = scanner.nextLine().toLowerCase().charAt(0);
              } catch (InputMismatchException e) {
                  System.out.println("Invalid input.");
-                 scanner.nextLine();
+                 scanner.nextLine(); // Consume invalid input
                  continue;
              }
              if (choice == 's')
@@ -87,12 +92,23 @@ public class BankAccountMain
                  System.out.println("\n=========================");
                  BankAccountList.printBankAccount();
                  System.out.println("\n=========================");
+                 System.out.println("[M] Menu");
+                 scanner = new Scanner(System.in);
+
+             }
+             if  (choice == 'i'){
+                 System.out.println("Set interest rate: ");
+                 scanner = new Scanner(System.in);
+                 interest = scanner.nextDouble();
+                 BankAccount2.setInterestRate(interest);
+
              }
          } while (choice != 'e');
+        // Exit loop and saving it on CSV file
         System.out.println("\n--------------------------------------");
         System.out.println("\n     Exiting Bank Account Menu.");
         System.out.println("\n--------------------------------------");
-        BankAccountCSVHandler.writeCSV(directory, List);
+        BankAccountCSVHandler.writeCSV(directory, List); // Write data back to CSV
         System.exit(0);
      }
 
@@ -100,9 +116,12 @@ public class BankAccountMain
     {
         if(!new File(directory).exists())
         {
+            // Create empty CSV if it doesn't exist
             BankAccountCSVHandler.writeCSV(directory, null);
         }
-        else BankAccountCSVHandler.readCSV(directory);
+        else
+            // Read existing CSV data
+            BankAccountCSVHandler.readCSV(directory);
     }
     private static void openAccount(BankAccount2 b, boolean searchedAccount) {
         System.out.println("====================================");
@@ -115,7 +134,8 @@ public class BankAccountMain
 
         System.out.println("1. Withdraw Money");
         System.out.println("2. Deposit Money");
-        System.out.println("3. Delete Account");
+        System.out.println("3. Menu");
+        System.out.println("4. Delete Account");
 
         System.out.println("====================================");
 
@@ -129,13 +149,6 @@ public class BankAccountMain
                 amount = new Scanner(System.in).nextDouble();
                 boolean withdrawSuccess = List.withdraw(b.getAccountNumber(), amount);
                 if (withdrawSuccess) {
-                    System.out.println("====================================");
-
-                    System.out.println("\nWITHDREW: " + amount +
-                            "\nINTEREST: " + b.getInterestRate());
-                    b.addInterest();
-                    System.out.println("BALANCE WITH INTEREST: " + b.getBalance());
-                    System.out.println("====================================");
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n        Withdrawal successful.");
                     System.out.println("\n--------------------------------------");
@@ -147,27 +160,41 @@ public class BankAccountMain
                 }
                 break;
             case 2:
+                System.out.println("Apply Interest Rate? (y/n) ");
+                Scanner scanner = new Scanner(System.in);
+                String applyInterest = scanner.nextLine().toLowerCase();
+                if (applyInterest.equals("y")) {
+                    // Proceed with deposit and add interest
+                    System.out.print("\nEnter amount to deposit: ");
+                    amount = new Scanner(System.in).nextDouble();
+                    boolean depositSuccess = List.deposit(b.getAccountNumber(), amount);
+                    if (depositSuccess) {
+                        b.addInterest(); // Add interest only if user chooses to apply it
+                        System.out.println("\n--------------------------------------");
+                        System.out.println("\n        Deposit successful.");
+                        System.out.println("\n--------------------------------------");
+                    } else {
+                        System.out.println("Deposit failed. Check account or amount.");
+                        new Scanner(System.in).nextLine();
+                    }
+                }
+
+                if (applyInterest.equals("n")){
                 System.out.print("\nEnter amount to deposit: ");
                 amount = new Scanner(System.in).nextDouble();
                 boolean depositSuccess = List.deposit(b.getAccountNumber(), amount);
                 if (depositSuccess) {
-                    System.out.println("====================================");
-
-                    System.out.println("DEPOSITED: " + amount +
-                            "\nBALANCE: " + b.getBalance());
-                    System.out.println("====================================");
-
-
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n        Deposit successful.");
                     System.out.println("\n--------------------------------------");
-
                 } else {
                     System.out.println("Deposit failed. Check account or amount.");
                     new Scanner(System.in).nextLine();
                 }
+            }
                 break;
-            case 3:
+            case 3: break;
+            case 4:
                 if (List.deleteBankAccount(b, directory)) {
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n     Account deleted successfully.");
@@ -177,16 +204,18 @@ public class BankAccountMain
                 }
                 break;
             default:
-                System.out.println("Invalid sub-choice. Please enter 1, 2, or 3.");
+                System.out.println("Invalid sub-choice. Please enter 1 - 4.");
         }
     }
 
     private static void searchAccount()
     {
-        System.out.println("\n--------------------------------------");
+        System.out.println("\nSearch your account.");
+        System.out.println("--------------------------------------");
         System.out.println("[I] Search by index");
         System.out.println("[A] Search by account number");
         System.out.println("[N] Search by name");
+        System.out.println("[M] Menu");
         System.out.println("--------------------------------------");
         System.out.print("Enter: ");
         Scanner scanner = new Scanner(System.in);
@@ -238,6 +267,7 @@ public class BankAccountMain
                 }
                 break;
             }
+            case 'm':break;
 
         }
 
