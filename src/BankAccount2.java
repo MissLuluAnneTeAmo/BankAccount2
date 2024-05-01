@@ -6,6 +6,7 @@ public class BankAccount2 {
     private String AccountNumber;
     private double Balance;
     private static double InterestRate;
+    private double interestRate;
     /**
      * Constructs a BankAccount2 object with the specified name, account number, and balance.
      *
@@ -67,6 +68,9 @@ public class BankAccount2 {
 
     public static void setInterestRate(double interestRate) {
         InterestRate = interestRate;
+    }
+    public void setInterest(double interestRate) {
+        this.interestRate = interestRate;
     }
 
     /**
