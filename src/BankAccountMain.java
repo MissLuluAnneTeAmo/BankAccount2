@@ -5,6 +5,14 @@ import java.util.InputMismatchException;
 public class BankAccountMain
 {
     private static final BankAccountList List = new BankAccountList();
+    public static boolean breaking = false;
+
+    public static char choice = ' ';
+    public static String accountNumber;
+    public static String accountName;
+    public static double amount;
+    public static String name;
+    public static double interest;
     // File path for CSV data
     private static final String directory = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "LoggingFile.csv";
 
@@ -12,14 +20,6 @@ public class BankAccountMain
     {
 
          createLogs();// Check/create and read CSV file
-
-        //Variables
-         char choice = ' ';
-         String accountNumber;
-         String accountName;
-         double amount;
-         String name;
-         double interest;
 
          do
          {
@@ -45,6 +45,7 @@ public class BankAccountMain
              }
              if (choice == 's')
              {
+
                  searchAccount();
              }
 
@@ -55,9 +56,18 @@ public class BankAccountMain
                  System.out.print("Enter account name: ");
                  scanner = new Scanner(System.in);
                  name = scanner.nextLine();
-                 System.out.print("Enter initial balance: ");
-                 scanner = new Scanner(System.in);
-                 amount = scanner.nextDouble();
+                 do {
+                     try {
+                         System.out.print("Enter initial balance: ");
+                         scanner = new Scanner(System.in);
+                         amount = scanner.nextDouble();
+                         breaking = false;
+                     }
+                     catch(Exception e) {
+                         System.out.println("\n\n\nInvalid balance amount!");
+                         breaking = true;
+                     }
+                 } while(breaking);
 
                  if (amount < 0)
                  {
@@ -67,23 +77,33 @@ public class BankAccountMain
                  {
                      BankAccount2 newAccount = new BankAccount2(name, accountNumber, amount); // Set default interest rate
 
-                     System.out.println("\n------------------------------------------");
-                     System.out.println("\nDo you want to save the new account? (y/n): ");
-                     scanner = new Scanner(System.in);
-                     String saveChoice = scanner.nextLine().toLowerCase(); // Convert input to lowercase
-
-                     if (saveChoice.equals("y"))
+                     do
                      {
-                         List.addAccount(newAccount);
-                         System.out.println("\n-------------------------------------");
-                         System.out.println("\nAccount added and saved successfully.");
-                         System.out.println("\n-------------------------------------");
+                         System.out.println("\n------------------------------------------");
+                         System.out.println("\nDo you want to save the new account? (y/n): ");
+                         scanner = new Scanner(System.in);
+                         String saveChoice = scanner.nextLine().toLowerCase(); // Convert input to lowercase
 
-                     }
-                     else
-                     {
-                         System.out.println("Account creation cancelled. New account not saved.");
-                     }
+                         if (saveChoice.equals("y"))
+                         {
+                             List.addAccount(newAccount);
+                             System.out.println("\n-------------------------------------");
+                             System.out.println("\nAccount added and saved successfully.");
+                             System.out.println("\n-------------------------------------");
+                             breaking = false;
+
+                         }
+                         else if (saveChoice.equals("n"))
+                         {
+                             System.out.println("Account creation cancelled. New account not saved.");
+                             breaking = true;
+                         }
+                         else
+                         {
+                             System.out.println("\n\nInvalid choice!");
+                             breaking = true;
+                         }
+                     } while(breaking);
                  }
 
              }
@@ -92,14 +112,19 @@ public class BankAccountMain
                  System.out.println("\n=========================");
                  BankAccountList.printBankAccount();
                  System.out.println("\n=========================");
-                  scanner.nextLine();
+                 System.out.println("[M] Menu");
 
              }
              if  (choice == 'i'){
-                 System.out.println("Set interest rate: ");
-                 scanner = new Scanner(System.in);
-                 interest = scanner.nextDouble();
-                 BankAccount2.setInterestRate(interest);
+                 try {
+                     System.out.println("Set interest rate: ");
+                     scanner = new Scanner(System.in);
+                     interest = scanner.nextDouble();
+                     BankAccount2.setInterestRate(interest);
+                 }
+                 catch(Exception e) {
+                     System.out.println("Invalid interest number!");
+                 }
 
              }
          } while (choice != 'e');
@@ -133,14 +158,14 @@ public class BankAccountMain
 
         System.out.println("1. Withdraw Money");
         System.out.println("2. Deposit Money");
-        System.out.println("3. Delete Account");
-        System.out.println("4. Add Interest");
-        System.out.println("5. Update Account");
-        System.out.println("6. Menu");
+        System.out.println("3. Menu");
+        System.out.println("4. Delete Account");
+        System.out.println("5. Add Interest");
+        System.out.println("5. Set Interest");
 
         System.out.println("====================================");
 
-        System.out.print("Enter your choice: " );
+        System.out.print("Enter your choice");
 
         int subChoice = new Scanner(System.in).nextInt();
         double amount;
@@ -194,7 +219,8 @@ public class BankAccountMain
                 }
             }
                 break;
-            case 3:
+            case 3: break;
+            case 4:
                 if (List.deleteBankAccount(b, directory)) {
                     System.out.println("\n--------------------------------------");
                     System.out.println("\n     Account deleted successfully.");
@@ -203,92 +229,108 @@ public class BankAccountMain
                     System.out.println("Account deletion failed. Account not found.");
                 }
                 break;
-                // @iid3rp signature here
-            case 4:
-                System.out.println("Set interest rate to your bank account: ");
-                double interest = new Scanner(System.in).nextDouble();
-                b.setInterest(interest / 100);
-                break;
-
             case 5:
+                System.out.println("Set interest rate to your bank account: ");
+                int interest = new Scanner(System.in).nextInt();
+                b.setInterest((double) interest / 100);
+            case 6:
                 System.out.println("Update name: ");
                 String name = new Scanner(System.in).nextLine();
                 b.setName(name);
                 System.out.println("\n--------------------------------------");
                 System.out.println("\n     Account edited successfully.");
                 System.out.println("\n--------------------------------------");
-                break;
 
             default:
-                System.out.println("Invalid sub-choice. Please enter 1 - 6.");
-            case 6: break;
+                System.out.println("Invalid sub-choice. Please enter 1 - 4.");
         }
-
-
     }
 
     private static void searchAccount()
     {
-        System.out.println("\nSearch your account.");
-        System.out.println("--------------------------------------");
-        System.out.println("[I] Search by index");
-        System.out.println("[A] Search by account number");
-        System.out.println("[N] Search by name");
-        System.out.println("[M] Menu");
-        System.out.println("--------------------------------------");
-        System.out.print("Enter: ");
-        Scanner scanner = new Scanner(System.in);
-        char c = scanner.nextLine().toLowerCase().charAt(0);
-
-
-        switch(c)
-        {
-            case 'i':
-            {
-                System.out.println("\n====================================");
-                System.out.print("Enter account index to open account: ");
-                scanner = new Scanner(System.in);
-                int i = scanner.nextInt();
-                BankAccount2 account = List.searchByIndex(i);
-                if (account != null) {
-                    openAccount(account);// Pass flag indicating searched account
-                } else {
-                    System.out.println("\nAccount not found.");
-                }
-                break;
+        do {
+            System.out.println("\nSearch your account.");
+            System.out.println("--------------------------------------");
+            System.out.println("[I] Search by index");
+            System.out.println("[A] Search by account number");
+            System.out.println("[N] Search by name");
+            System.out.println("[M] Menu");
+            System.out.println("--------------------------------------");
+            System.out.print("Enter: ");
+            breaking = false;
+            Scanner scanner = new Scanner(System.in);
+            char c = 0;
+            try {
+                c = scanner.nextLine().toLowerCase().charAt(0);
+            }
+            catch(Exception e) {
+                System.out.println("Invalid character!");
+                breaking = true;
             }
 
-            case 'a':
+            switch(c)
             {
-                System.out.println("\n====================================");
-                System.out.print("Enter account number to open account: ");
-                scanner = new Scanner(System.in);
-                String accountNumber = scanner.nextLine();
-                BankAccount2 account = List.searchByAccountNumber(accountNumber);
-                if (account != null) {
-                    openAccount(account);// Pass flag indicating searched account
-                } else {
-                    System.out.println("\nAccount not found.");
+                case 'i':
+                {
+                    System.out.println("\n====================================");
+                    System.out.print("Enter account index to open account: ");
+                    scanner = new Scanner(System.in);
+                    int i;
+                    try {
+                        i = scanner.nextInt();
+                    }
+                    catch(Exception e) {
+                        System.out.println("Invalid index number!");
+                        breaking = true;
+                        continue;
+                    }
+                    BankAccount2 account = List.searchByIndex(i);
+                    if (account != null) {
+                        openAccount(account);// Pass flag indicating searched account
+                    } else {
+                        System.out.println("\nAccount not found.");
+                        breaking = true;
+                    }
+                    break;
                 }
-                break;
-            }
-            case 'n':
-            {
-                System.out.println("\n====================================");
-                System.out.print("Enter account name to open account: ");
-                scanner = new Scanner(System.in);
-                String accountName = scanner.nextLine();
-                BankAccount2 account = List.searchByName(accountName);
-                if (account != null) {
-                    openAccount(account);// Pass flag indicating searched account
-                } else {
-                    System.out.println("\nAccount not found.");
-                }
-                break;
-            }
-            case 'm':break;
 
-        }
+                case 'a':
+                {
+                    System.out.println("\n====================================");
+                    System.out.print("Enter account number to open account: ");
+                    scanner = new Scanner(System.in);
+                    String accountNumber = scanner.nextLine();
+                    BankAccount2 account = List.searchByAccountNumber(accountNumber);
+                    if (account != null) {
+                        openAccount(account);// Pass flag indicating searched account
+                    } else {
+                        System.out.println("\nAccount not found.");
+                        breaking = true;
+                    }
+                    break;
+                }
+                case 'n':
+                {
+                    System.out.println("\n====================================");
+                    System.out.print("Enter account name to open account: ");
+                    scanner = new Scanner(System.in);
+                    String accountName = scanner.nextLine();
+                    BankAccount2 account = List.searchByName(accountName);
+                    if (account != null) {
+                        openAccount(account);// Pass flag indicating searched account
+                    } else {
+                        System.out.println("\nAccount not found.");
+                        breaking = true;
+                    }
+                    break;
+                }
+                case 'm':
+                    break;
+                default:
+                    breaking = true;
+                    break;
+            }
+        } while(breaking);
 
 
     }
